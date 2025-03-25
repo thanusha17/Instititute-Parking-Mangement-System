@@ -1,11 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast ,ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/auth/logout", {}, { withCredentials: true });
+      toast.success("Logged out successfully!", { position: "top-right" });
+      navigate("/auth/login"); // Redirect back to login page
+    } catch (error) {
+      console.error("Logout Error:", error);
+      toast.error("Failed to logout. Please try again.", { position: "top-right" });
+    }
   };
 
   return (
@@ -20,6 +29,7 @@ const Home = () => {
           Logout
         </button>
       </div>
+      <ToastContainer style={{ zIndex: 9999 }} />
     </div>
   );
 };

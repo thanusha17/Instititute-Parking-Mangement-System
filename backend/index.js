@@ -1,39 +1,35 @@
-const mysql = require('mysql2'); // Change from 'mysql' to 'mysql2'
-const dotenv = require('dotenv');
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 5000;
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import db from './config/db.js'; // Importing the database connection
+import cookieParser from 'cookie-parser'; // For handling cookies
+import authRoutes from './routes/authRoutes.js'; // Import your auth routes
 
 dotenv.config();
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',      
-    user: process.env.USER_NAME || 'root',  
-    password: process.env.DB_PASSWORD || 'your_password',
-    database: process.env.DB_NAME || 'ParkingManagementSystem',
-});
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-db.connect((err) => {
-    if (err) {
-        console.error('Database connection failed:', err.message);
-        return;
-    }
-    console.log('Connected to MySQL Database!');
-});
+app.use(cors({
+    origin: "http://localhost:3000", // Allow frontend origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    credentials: true // Enable cookies and authentication headers if required
+  }));
 
-// db.query("select * from users", (err, result) => {
-//         if(err) {
-//             return console.log(err)
-//         }
-//         return console.log(result)
-//     })
-    
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); // Enables cookie handling
+
+// Sample route to verify database connection
 app.get('/', (req, res) => {
     res.send('MySQL connection successful!');
 });
 
+// Authentication Routes
+app.use('/auth', authRoutes);
+
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-module.exports = db;

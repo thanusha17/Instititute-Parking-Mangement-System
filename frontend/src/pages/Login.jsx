@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import backgroundImage from "../../assets/iiita_parking.png";
+import backgroundImage from "../assets/iiita_parking.png";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");

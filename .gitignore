@@ -1,0 +1,65 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# Logs
+logs/
+*.log
+logs/*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Build output
+/build
+/dist
+/out
+.next
+
+# Dependency directories
+/.pnp
+.pnp.js
+
+# Environment-specific files
+.env.development
+.env.production
+.env.test
+.env.local
+
+# Database and credentials
+*.sql
+*.sqlite
+*.db
+
+# npm cache
+.npm
+
+# Coverage files
+/coverage
+
+# IDE settings
+*.iml
+
+# Mac-specific files
+*.DS_Store
+
+# Logs
+*.log
+
+# React specific
+/public/*.html
+/public/*.json
+/public/static/
+src/setupProxy.js

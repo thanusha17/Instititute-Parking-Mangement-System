@@ -1,35 +1,55 @@
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast ,ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import AdminNavbar from "../components/AdminNavbar";
+import backgroundImage from "../assets/bus.png";
+import cc3Image from "../assets/cc3.png";
+import LocationCard from "../components/LocationCard";
 
 const Home = () => {
-  const navigate = useNavigate();
+  const locations = [
+    { id: 1, name: "CC3", image: cc3Image },
+    { id: 2, name: "Library", image: backgroundImage },
+    { id: 3, name: "Hostel", image: backgroundImage },
+  ];
 
-  const handleLogout = async () => {
-    try {
-      await axios.post("http://localhost:5000/auth/logout", {}, { withCredentials: true });
-      toast.success("Logged out successfully!", { position: "top-right" });
-      navigate("/auth/login"); // Redirect back to login page
-    } catch (error) {
-      console.error("Logout Error:", error);
-      toast.error("Failed to logout. Please try again.", { position: "top-right" });
-    }
+  const handleEdit = (id) => {
+    console.log(`Editing slots for location ID: ${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Deleting slots for location ID: ${id}`);
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md text-center w-96">
-        <h2 className="text-3xl font-bold mb-4">🏢 Welcome to Parking Management</h2>
-        <p className="text-gray-600">You are successfully logged in.</p>
-        <button
-          onClick={handleLogout}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-        >
-          Logout
-        </button>
+    <div className="relative min-h-screen w-full">
+      {/* Background Image with Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
+        <div className="absolute inset-0 bg-black/40"></div> {/* Black overlay ONLY on the background */}
       </div>
-      <ToastContainer style={{ zIndex: 9999 }} />
+
+      {/* Fixed Navbar */}
+      <AdminNavbar />
+
+      {/* Welcome Admin text below the navbar */}
+      <div className="relative pt-20 px-6 flex justify-center">
+        <h1 className="text-4xl font-bold text-white text-center sm:text-left">
+          🏢 Welcome Admin
+        </h1>
+      </div>
+
+      {/* Location Cards Section (Responsive Grid) */}
+      <div className="relative p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+        {locations.map((location) => (
+          <LocationCard
+            key={location.id}
+            image={location.image}
+            name={location.name}
+            onEdit={() => handleEdit(location.id)}
+            onDelete={() => handleDelete(location.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

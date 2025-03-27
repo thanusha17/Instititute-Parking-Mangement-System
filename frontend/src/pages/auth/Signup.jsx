@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import backgroundImage from "../../assets/iiita_parking.png";
 
@@ -11,6 +11,7 @@ const Signup = () => {
   const [phone_number, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,27 +29,18 @@ const Signup = () => {
 
       if (response.data.success) {
         toast.success("Registration successful!");
-        setName("");
-        setEmail("");
-        setPhoneNumber("");
-        setPassword("");
-        setRole("");
+        navigate("/home");
       } else {
         toast.error(response.data.message || "Error during registration.");
       }
 
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
-
-      // Improved error handling for better feedback
       if (error.response) {
-        // Server responded but with an error status
         toast.error(`${error.response.data.message || "Server Error!"}`);
       } else if (error.request) {
-        // Request was made but no response received
         toast.error(" No response from server. Please try again.");
       } else {
-        // Something went wrong setting up the request
         toast.error(" Failed to connect to the server.");
       }
     }

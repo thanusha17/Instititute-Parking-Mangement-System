@@ -15,14 +15,14 @@ const Login = () => {
   
     try {
       const response = await axios.post("http://localhost:5000/auth/login", {
-        identifier, // Could be email or phone number
+        identifier,
         password,
       }, {
-        withCredentials: true // Ensures cookies like tokens are included
+        withCredentials: true
       });
   
       if (response.data.success) {
-        navigate("/home"); // Redirect to dashboard or desired route
+        navigate("/home");
       } else {
         toast.error(response.data.message || "Login failed. Please try again.", { position: "top-right" });
       }

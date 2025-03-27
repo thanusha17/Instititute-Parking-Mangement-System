@@ -43,6 +43,7 @@ const Home = () => {
         {locations.map((location) => (
           <LocationCard
             key={location.id}
+            id={location.id}
             image={location.image}
             name={location.name}
             onEdit={() => handleEdit(location.id)}

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import db from './config/db.js'; // Importing the database connection
 import cookieParser from 'cookie-parser'; // For handling cookies
 import authRoutes from './routes/authRoutes.js'; // Import your auth routes
+import adminRoutes from './routes/adminRoutes.js'; // Import your admin routes
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: "http://localhost:3000", // Allow frontend origin
+    origin: "http://localhost:3000", 
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
     credentials: true // Enable cookies and authentication headers if required
   }));
@@ -28,6 +29,8 @@ app.get('/', (req, res) => {
 
 // Authentication Routes
 app.use('/auth', authRoutes);
+app.use('/admin',adminRoutes);
+
 
 // Start the server
 app.listen(PORT, () => {

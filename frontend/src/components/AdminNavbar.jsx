@@ -29,7 +29,7 @@ const AdminNavbar = () => {
 
           {/* Right Section (Profile & Add Slots) */}
           <div className="flex space-x-6 items-center">
-            <Link to="/add-location" className="hover:text-blue-400">➕ Add Location</Link>
+            <Link to="/admin/addlocation" className="hover:text-blue-400">➕ Add Location</Link>
 
             {/* Profile Dropdown */}
             <div className="relative">

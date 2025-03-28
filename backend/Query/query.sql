@@ -12,3 +12,24 @@ CREATE TABLE Users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+
+CREATE TABLE Locations (
+    location_id INT PRIMARY KEY AUTO_INCREMENT,
+    location_name VARCHAR(255) NOT NULL,
+    two_wheeler_slots INT NOT NULL,
+    four_wheeler_slots INT NOT NULL,
+    bus_parking_slots INT NOT NULL -- Added column for bus parking slots
+);
+
+CREATE TABLE ParkingSlots (
+    slot_id INT PRIMARY KEY AUTO_INCREMENT,
+    location_id INT,
+    vehicle_type ENUM('two-wheeler', 'four-wheeler', 'bus') NOT NULL,
+    is_empty BOOLEAN NOT NULL DEFAULT TRUE,
+    permanently_reserved BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (location_id) REFERENCES Locations(location_id) ON DELETE CASCADE
+);
+ALTER TABLE Locations ADD COLUMN image_url VARCHAR(500);

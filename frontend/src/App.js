@@ -17,7 +17,7 @@ function App() {
             <Route path="register" element={<Signup />} />
         </Route>
         <Route path="/profile" element={<Profile />} />
-        <Route path="/add-location" element={<AddLocation />} />
+        <Route path="/admin/addlocation" element={<AddLocation />} />
         <Route path="/location/:id" element={<LocationDetails />} />
         <Route path="/location/:id/edit" element={<EditLocation />} />
         <Route path="/home" element={<Home />} />

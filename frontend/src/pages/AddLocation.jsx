@@ -3,16 +3,21 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import backgroundImage from "../assets/road.png";
+import LocationImageUpload from "../components/LocationImageUpload";
 
 const AddLocation = () => {
   const [locationName, setLocationName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [isLoadingState, setImageLoadingState] = useState(false);
   const [slots, setSlots] = useState({ twoWheeler: 0, fourWheeler: 0, bus: 0 });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { twoWheeler, fourWheeler, bus } = slots;
     try {
-      const response = await axios.post("http://localhost:5000/locations", { locationName, slots });
+      const response = await axios.post("http://localhost:5000/admin/addlocation", { location_name:locationName,image_url:uploadedImageUrl,two_wheeler_slots: twoWheeler,four_wheeler_slots:fourWheeler,bus_parking_slots:bus});
       
       toast.success(`✅ Location "${locationName}" added successfully!`);
       
@@ -53,12 +58,14 @@ const AddLocation = () => {
       </button>
 
       {/* Form Container */}
-      <div className="relative z-10 w-full max-w-lg bg-white bg-opacity-10 backdrop-blur-md shadow-xl rounded-2xl p-8 border border-white/20">
+      <div className="relative z-10 w-full  max-w-lg bg-white bg-opacity-10 backdrop-blur-md shadow-xl rounded-2xl p-8 border border-white/20">
         <h2 className="text-3xl font-bold text-white text-center mb-6">🚗 Add Parking Location</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Location Name */}
           <div>
+          <LocationImageUpload imageFile={imageFile} setImageFile={setImageFile} uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl} setImageLoadingState={setImageLoadingState} isLoadingState={isLoadingState}  />
+
             <label className="block text-white text-lg font-semibold">📍 Location Name</label>
             <input
               type="text"

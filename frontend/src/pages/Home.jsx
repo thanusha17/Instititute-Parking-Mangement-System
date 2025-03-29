@@ -1,14 +1,27 @@
 import AdminNavbar from "../components/AdminNavbar";
 import backgroundImage from "../assets/bus.png";
-import cc3Image from "../assets/cc3.png";
 import LocationCard from "../components/LocationCard";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Home = () => {
-  const locations = [
-    { id: 1, name: "CC3", image: cc3Image },
-    { id: 2, name: "Library", image: backgroundImage },
-    { id: 3, name: "Hostel", image: backgroundImage },
-  ];
+  const [location, setLocation] = useState([]);
+  const [isloading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    axios.get("http://localhost:5000/admin/get")
+      .then((res) => {
+        console.log(res.data); // ✅ Check actual response
+        console.log(res.data.locations); // ✅ Check if locations exist
+
+        setLocation(res.data.locations); // Ensure locations array is set correctly
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
 
   const handleEdit = (id) => {
     console.log(`Editing slots for location ID: ${id}`);
@@ -40,14 +53,14 @@ const Home = () => {
 
       {/* Location Cards Section (Responsive Grid) */}
       <div className="relative p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
-        {locations.map((location) => (
+        {location.map((locationElement) => (
           <LocationCard
-            key={location.id}
-            id={location.id}
-            image={location.image}
-            name={location.name}
-            onEdit={() => handleEdit(location.id)}
-            onDelete={() => handleDelete(location.id)}
+            key={locationElement.location_id}
+            id={locationElement.location_id}
+            image={locationElement.image_url}
+            name={locationElement.location_name}
+            onEdit={() => handleEdit(locationElement.location_id)}
+            onDelete={() => handleDelete(locationElement.location_id)}
           />
         ))}
       </div>

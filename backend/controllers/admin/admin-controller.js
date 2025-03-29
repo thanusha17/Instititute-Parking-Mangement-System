@@ -150,3 +150,23 @@ export const getSlots = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error", error: err.message });
     }
 };
+
+
+
+export const fetchAllLocations = async (req, res) => {
+
+    try{
+        const connection = db.promise();
+
+        // Fetch all locations
+        const [locations] = await connection.query(
+            "SELECT * FROM Locations"
+        );
+
+        res.status(200).json({ locations }); 
+
+    }catch(err){
+        console.log("Database error",err);
+        res.status(500).json({message:"Internal Server Error",error:err.message});
+    }
+};

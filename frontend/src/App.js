@@ -5,6 +5,8 @@ import Profile from "./pages/Profile";
 import AddLocation from "./pages/AddLocation";
 import LocationDetails from "./pages/LocationDetails";
 import EditLocation from "./pages/EditLocation";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
         <Route path="/location/:id/edit" element={<EditLocation />} />
         <Route path="/home" element={<Home />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }
